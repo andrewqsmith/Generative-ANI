@@ -22,6 +22,32 @@ public class NPC_State
         Hostile
     }
 
+    public enum CharacterGender
+    {
+        Male,
+        Female,
+        NonBinary,
+        Unknown
+    }
+
+    public enum Genre
+    {
+        Fantasy,
+        SciFi,
+        Horror,
+        Romance,
+        Mystery,
+        Thriller,
+        Comedy,
+        Drama,
+        Action,
+        Adventure,
+        Historical,
+        Western,
+        NonFiction,
+        Unknown
+    }
+
     public class NPCState
     {
         public AnimateState animateState;

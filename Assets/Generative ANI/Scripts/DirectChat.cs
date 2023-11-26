@@ -44,7 +44,7 @@ public class DirectChat : MonoBehaviour
         CreateListeners();
         
         Output.text = "User: Hello!\r\n";
-        var ai_prompt = "Say hello"; // use the "chat-with-AI" prompt here.
+        var ai_prompt = "Say hello";
         // Load a model
         var parameters = new ModelParams(ModelPath)
         {
