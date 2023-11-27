@@ -7,6 +7,8 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
+using UnityEngine.Windows;
 
 public class DialogueGeneration : MonoBehaviour
 {
@@ -16,12 +18,10 @@ public class DialogueGeneration : MonoBehaviour
     public TMP_Text Output;
 
     public float TemperatureValue = 0.6f;
-    public uint ContextSizeValue = 4096;
+    public uint ContextSizeValue = 8192;
     public uint SeedValue = 1337;
     public int GpuLayerCountValue = 100;
-    public Button Submit;
     public NPC_State npcState;
-    public Dropdown genderDropdown;
 
     // Enumerations
     public NPC_State.CharacterGender CharacterGender = new NPC_State.CharacterGender();
@@ -34,7 +34,6 @@ public class DialogueGeneration : MonoBehaviour
     void Awake()
     {
         ModelPath = Application.dataPath + "/Generative ANI/Model/" + ModelFileName;
-       
     }
     
     public async UniTaskVoid StartDialogueGeneration()
@@ -44,7 +43,6 @@ public class DialogueGeneration : MonoBehaviour
         //Output.text = "User: Hello!\r\n";
         var ai_prompt = createPrompt();
         // Load a model
-        /*
         var parameters = new ModelParams(ModelPath)
         {
             ContextSize = ContextSizeValue,
@@ -61,7 +59,6 @@ public class DialogueGeneration : MonoBehaviour
         var ex = new InteractiveExecutor(context);
         ChatSession session = new ChatSession(ex);
 
-        Submit.interactable = true;
         // run the inference in a loop to chat with LLM
         while (ai_prompt != "stop")
         {
@@ -70,8 +67,7 @@ public class DialogueGeneration : MonoBehaviour
                     ai_prompt,
                     new InferenceParams()
                     {
-                        Temperature = TemperatureValue,
-                        AntiPrompts = new List<string> { "User:" }
+                        Temperature = TemperatureValue
                     }
                 )
             ))
@@ -83,7 +79,6 @@ public class DialogueGeneration : MonoBehaviour
             _submittedText = "";
             Output.text += " " + ai_prompt + "\n";
         }
-        Submit.onClick.RemoveAllListeners();*/
     }
 
     private async IAsyncEnumerable<string> ChatConcurrent(IAsyncEnumerable<string> tokens)
@@ -109,7 +104,8 @@ public class DialogueGeneration : MonoBehaviour
         string genreString = Genre.ToString();
         Debug.Log("The genre is: " + genreString);
 
-        string prompt = $"Generate unique and creative fantasy dialogue suited for a {genderString} " +
+        string prompt = $"Only generate dialogue for the following non-playable character. Do not produce any additional text or instructions. " +
+                        $"Generate unique and creative fantasy dialogue suited for a {genderString} " +
                         $"non-playable character in a roleplaying game. Use details about the current " +
                         $"animation state such {animateString} to inform appropriate emotional tone " +
                         $"{attitudeString} and context. Focus the dialogue on moving the gameplay narrative " +
@@ -117,7 +113,7 @@ public class DialogueGeneration : MonoBehaviour
                         $"comments relating to the player's current objectives. Ensure vocabulary and " +
                         $"phrasing fits a {genreString} setting.";
 
-        return "";
+        return prompt;
     }
 
 
