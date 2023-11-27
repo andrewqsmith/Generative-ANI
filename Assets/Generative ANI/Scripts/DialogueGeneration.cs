@@ -14,7 +14,7 @@ public class DialogueGeneration : MonoBehaviour
     
     public string ModelFileName = "llama-2-7b-guanaco-qlora.Q4_K_M.gguf";
     public TMP_Text Output;
-    public TMP_InputField Input;
+
     public float TemperatureValue = 0.6f;
     public uint ContextSizeValue = 4096;
     public uint SeedValue = 1337;
@@ -36,14 +36,15 @@ public class DialogueGeneration : MonoBehaviour
         ModelPath = Application.dataPath + "/Generative ANI/Model/" + ModelFileName;
        
     }
-
-    async UniTaskVoid Start()
+    
+    public async UniTaskVoid StartDialogueGeneration()
     {
-        Submit.interactable = false;
+        //Submit.interactable = false;
 
-        Output.text = "User: Hello!\r\n";
+        //Output.text = "User: Hello!\r\n";
         var ai_prompt = createPrompt();
         // Load a model
+        /*
         var parameters = new ModelParams(ModelPath)
         {
             ContextSize = ContextSizeValue,
@@ -82,7 +83,7 @@ public class DialogueGeneration : MonoBehaviour
             _submittedText = "";
             Output.text += " " + ai_prompt + "\n";
         }
-        Submit.onClick.RemoveAllListeners();
+        Submit.onClick.RemoveAllListeners();*/
     }
 
     private async IAsyncEnumerable<string> ChatConcurrent(IAsyncEnumerable<string> tokens)
