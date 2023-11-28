@@ -3,12 +3,14 @@ using Cysharp.Threading.Tasks;
 using LLama;
 using LLama.Common;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using UnityEngine.Windows;
+using Debug = UnityEngine.Debug;
 
 public class DialogueGeneration : MonoBehaviour
 {
@@ -17,11 +19,15 @@ public class DialogueGeneration : MonoBehaviour
     public string ModelFileName = "llama-2-7b-guanaco-qlora.Q4_K_M.gguf";
     public TMP_Text Output;
 
+    public string CharacterName;
+    public string PlayerName;
     public float TemperatureValue = 0.6f;
-    public uint ContextSizeValue = 8192;
+    public uint ContextSizeValue = 4096;
     public uint SeedValue = 1337;
     public int GpuLayerCountValue = 100;
     public NPC_State npcState;
+    public int promptOption = 1;
+    public int promptWordLimit = 20;
 
     // Enumerations
     public NPC_State.CharacterGender CharacterGender = new NPC_State.CharacterGender();
@@ -67,7 +73,8 @@ public class DialogueGeneration : MonoBehaviour
                     ai_prompt,
                     new InferenceParams()
                     {
-                        Temperature = TemperatureValue
+                        Temperature = TemperatureValue,
+                        AntiPrompts = new List<string> { PlayerName }
                     }
                 )
             ))
@@ -104,17 +111,39 @@ public class DialogueGeneration : MonoBehaviour
         string genreString = Genre.ToString();
         Debug.Log("The genre is: " + genreString);
 
-        string prompt = $"Only generate dialogue for the following non-playable character. Do not produce any additional text or instructions. " +
-                        $"Generate unique and creative fantasy dialogue suited for a {genderString} " +
-                        $"non-playable character in a roleplaying game. Use details about the current " +
-                        $"animation state such {animateString} to inform appropriate emotional tone " +
-                        $"{attitudeString} and context. Focus the dialogue on moving the gameplay narrative " +
-                        $"forward by revealing interesting lore details, side quest opportunities, or " +
-                        $"comments relating to the player's current objectives. Ensure vocabulary and " +
-                        $"phrasing fits a {genreString} setting.";
+        return SuperPromptOptions(genderString, attitudeString, animateString, genreString);
+    }
+
+    private String SuperPromptOptions(string genderString, string attitudeString, string animateString, string genreString)
+    {
+        String prompt = "";
+        switch(promptOption)
+        {
+            case 1: prompt = $"Only generate dialogue for the following non-playable character. Do not produce any additional text or instructions. " +
+                             $"Limit to {promptWordLimit} words. Generate unique and creative dialogue suited for a {genderString} " +
+                             $"non-playable character in a {genreString} game. Use details about the current " +
+                             $"animation state such {animateString} to inform appropriate emotional tone of " +
+                             $"{attitudeString} and context. Focus the dialogue on moving the gameplay narrative " +
+                             $"forward by revealing interesting lore details, side quest opportunities, or " +
+                             $"comments relating to the player's current objectives.";
+                    break;
+            case 2: prompt = $"Only generate dialogue for the following non-playable character. Do not produce any additional text or instructions. " +
+                             $"Limit to {promptWordLimit} words. Generate unique and creative dialogue suited for a {genderString} " +
+                             $"non-playable character in a {genreString} game. Use details about the current " +
+                             $"emotional tone of {attitudeString} and context. Focus the dialogue on moving the gameplay narrative " +
+                             $"forward by revealing interesting lore details, side quest opportunities, or " +
+                             $"comments relating to the player's current objectives.";
+                    break;
+            case 3: prompt = $"Only generate dialogue for the following non-playable character. Do not produce any additional text or instructions. " +
+                             $"Limit to {promptWordLimit} words. Generate unique and creative dialogue suited for a {genderString} " +
+                             $"non-playable character in a {genreString} game.";
+                     break;
+            default: prompt = "Tell me an interesting fact"; 
+                     break;
+        }
+        Debug.Log("The prompt is: \r\n" + prompt);
 
         return prompt;
     }
-
 
 }
