@@ -29,6 +29,26 @@ To integrate these libraries and the LLM into your Unity project, follow these s
    - [LLAMASharp.Backend.CUDA11](https://www.nuget.org/packages/LLAMASharp.Backend.CUDA11/)
    - [LLAMASharp.Backend.CUDA12](https://www.nuget.org/packages/LLAMASharp.Backend.CUDA12/)
 
+## Unity Package
+
+## Using the Unity Package in the Repo
+
+The repository includes a Unity package that you can import into your Unity project. This package all of the above for ease of use. Here's how you can import it:
+
+1. Download the Unity package from the Generative-ANI repository. The package file will have a `.unitypackage` extension.
+
+2. Open your Unity project where you want to import the package.
+
+3. Go to the Unity Editor, click on `Assets` in the menu bar, and then select `Import Package > Custom Package...`.
+
+4. In the file dialog that opens, navigate to the location where you downloaded the Unity package, select it, and click `Open`.
+
+5. A new window will open in Unity showing you all the items that are included in the package. By default, all items are selected for import. If you only want to import specific items, you can deselect the ones you don't need.
+
+6. Click on the `Import` button to import the selected items into your Unity project.
+
+After the import is complete, the assets and scripts from the Unity package will be available in your project's `Assets` folder. You can now use these in your project as per your requirements.
+
 ## Feedback
 
 I read every piece of feedback and take your input very seriously. Please feel free to open an issue or submit a pull request.
