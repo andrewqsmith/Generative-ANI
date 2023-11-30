@@ -1,4 +1,4 @@
-# Generative-ANI
+# Generative Artificial Narrow Intelligence in Unity Game Engine with Offline Support
 
 Generative-ANI is a project that aims to integrate advanced language models into a Unity-based game to generate dynamic non-player character (NPC) dialogues and state attribute updates. The project utilizes the LLamaSharp library, the LLama 2 LLM 7b model, UniTask, and NuGetForUnity.
 
@@ -24,7 +24,7 @@ To integrate these libraries and the LLM into your Unity project, follow these s
 
 4. Download the LLama 2 LLM 7b model from the provided Hugging Face link and integrate it into your project by placing the file into the Assets/Model directory. Please note you can use any other GGUF LLM by just updating the ModelFileName in DirectChat.cs and DialogueGeneration.cs.
 
-5. This project includes libllama.dll for CPU (v0.8.0). You may manually change it to a newer CPU version or a CUDA version by downloading one of the below packages and replacing the current file:
+5. This project includes libllama.dll for CPU (v0.8.0-win-x64). You may manually change it to a newer CPU version or a CUDA version by downloading one of the below packages and replacing the current file:
    - [LLAMASharp.Backend.CPU](https://www.nuget.org/packages/LLAMASharp.Backend.CPU/)
    - [LLAMASharp.Backend.CUDA11](https://www.nuget.org/packages/LLAMASharp.Backend.CUDA11/)
    - [LLAMASharp.Backend.CUDA12](https://www.nuget.org/packages/LLAMASharp.Backend.CUDA12/)
